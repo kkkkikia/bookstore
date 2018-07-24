@@ -1,0 +1,63 @@
+import { Component, OnInit } from '@angular/core';
+import { Params, ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Book } from '../../models/book';
+import { BookService } from '../../services/book.service';
+import { CartService } from '../../services/cart.service';
+import { AppConst } from '../../constants/app-const';
+import { Http, HttpModule } from '@angular/http';
+
+@Component({
+  selector: 'app-book-detail',
+  templateUrl: './book-detail.component.html',
+  styleUrls: ['./book-detail.component.css']
+})
+export class BookDetailComponent implements OnInit {
+
+  private bookId: number;
+  private book: Book = new Book();
+  private serverPath: string = AppConst.serverPath;
+  private numberList: number[] = [1,2,3,4,5,6,7,8,9];
+  private qty: number;
+
+  private addBookSuccess: boolean = false;
+  private notEnoughStock: boolean = false;
+
+  constructor(
+  	private http:Http,
+  	private route: ActivatedRoute,
+  	private bookService: BookService,
+    private cartService: CartService,
+  	private router: Router
+  ) { }
+
+  onAddToCart() {
+    this.cartService.addItem(this.bookId, this.qty).subscribe(
+      res => {
+        console.log(res.toString());
+        this.addBookSuccess = true;
+      }, error => {
+        console.log(error);
+        this.notEnoughStock = true;
+      }
+    );
+  }
+
+
+
+  ngOnInit() {
+  	this.route.params.forEach((params: Params) => {
+  		this.bookId = Number.parseInt(params['id']);
+  	});
+
+  	this.bookService.getBook(this.bookId).subscribe(
+  		res => {
+  			this.book = res.json();
+  		}, error => {
+  			console.log(error);
+  		}
+  	);
+
+  	this.qty = 1;
+  }
+
+}

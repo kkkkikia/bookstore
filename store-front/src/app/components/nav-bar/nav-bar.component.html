@@ -1,0 +1,31 @@
+<div class="page-top" style="width: 100%; height: 20px; background-color: #f46b42">
+
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand pointer" routerlink="/home" style="">LIN'S BOOKSTROE</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a mat-button routerLink="/bookList" class="nav-link">BOOK</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" (ngSubmit)="onSearchByTitle()">
+      <input type="text" name="searyByTitle" [(ngModel)]="keyword" class="form-control mr-sm-2" placeholder="Book Title">
+	  <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+    </form>
+    <ul class="navbar-nav navbar-right mr-auto mt-2 mt-lg-0">
+		<li *ngIf="!loggedIn" class="nav-item">
+			<a mat-button routerLink="/myAccount">MY ACCOUNT</a>
+		</li>
+		<li *ngIf="loggedIn" class="nav-item">
+			<a mat-button routerLink="/shoppingCart">SHOPPING CART</a>
+		</li>
+		<li *ngIf="loggedIn" class="nav-item">
+			<a mat-button routerLink="/myProfile">MY PROFILE</a>
+		</li>
+		<li *ngIf="loggedIn" class="nav-item">
+			<a mat-button (click)="logout()">LOGOUT</a>
+		</li>
+	</ul>
+  </div>
+</nav>
